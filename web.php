@@ -19,10 +19,11 @@
         form>input:invalid+.ok{
             display:none;
         }
+
     </style>
     </head> 
     <body>
-    <form action="" method="post">
+    <form action="" method="post" width="500px" >
      <h3>帳號註冊</h3>
      帳號</br>
      <input type="text" name="account" required pattern="[0-9a-zA-Z]{8,16}">
@@ -35,7 +36,20 @@
      <input type="submit" value="註冊">
     </form>
     <?php
+     header("Content-Type:text/html; charset='utf-8'");
+     include("db_connect.php");
+     $database="userdata";
+     $db_select = mysqli_select_db($conn,$database) or die("資料庫選擇失敗");
+     $account=$_POST['account'];
+     $passwd=$_POST['passwd'];
+     echo strlen($account);
+     if((7<strlen($account))&&(strlen($account)<17)
+     &&(7<strlen($passwd))&&(strlen($passwd)<37)){
+      $enroll="INSERT INTO `username`(`account`,`password`) value('$account','$passwd')";
+      mysqli_query($conn,$enroll);
+     }else{
+        echo"<font color='red'>帳號或密碼不符合規則</font>";
+     }
     ?>
     </body>
-<!--copyright © DreamFuture-Studio , 2022 -->
 </html>
